@@ -20,19 +20,19 @@ console.log(uri);
 async function run() {
     try {
         await client.connect();
-        const database = client.db('heaven_peace')
-        const servicesCollection = database.collection('service');
+        const database = client.db('heavenPeace')
+        const servicesCollection = database.collection('services');
         console.log('Successfully database connected.')
 
         // get api
-        app.get('/service', async (req, res) => {
+        app.get('/services', async (req, res) => {
             const cursor = servicesCollection.find({});
             const services = await cursor.toArray();
             res.send(services);
         })
 
         // get single service
-        app.get('/service/:id', async (req, res) => {
+        app.get('/services/:id', async (req, res) => {
             const id = req.params.id;
             console.log('getting specific service.', id)
             const query = { _id: objectId(id) };
@@ -41,7 +41,7 @@ async function run() {
         })
 
         // post api
-        app.post('/service', async (req, res) => {
+        app.post('/services', async (req, res) => {
             const service = req.body;
             console.log('Hit the post api', service)
 
@@ -50,8 +50,8 @@ async function run() {
             res.json(result)
         })
 
-        // DELETE API
-        app.delete('/service/:id', async (req, res) => {
+        // DELETE API heavenPeace services
+        app.delete('/services/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id:objectId(id) }
             const result = await servicesCollection.deleteOne(query)
