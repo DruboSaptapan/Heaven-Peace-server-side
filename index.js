@@ -18,41 +18,50 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 async function run() {
     try {
 
-        // Connect to database
+        /* Connect to database */
         await client.connect();
         const database = client.db("heavenPeace")
         const packagesCollection = database.collection("packages")
         const ordersCollection = database.collection("orders")
 
-        // Get Packages API
+        /* Get Packages API */
         app.get('/packages', async (req, res) => {
             const cursor = packagesCollection.find({});
             const packages = await cursor.toArray();
             res.send(packages);
         })
 
-        // Add Packages API
+        // GET Single Service
+        app.get('/packages/:id', async (req, res) => {
+            const id = req.params.id;
+            console.log('getting specific service', id);
+            const query = { _id: ObjectId(id) };
+            const package = await packagesCollection.findOne(query);
+            res.json(package);
+        })
+
+        /* Add Packages API */
         app.post('/packages', async (req, res) => {
             const package = req.body;
             const result = await packagesCollection.insertOne(package);
             res.json(result);
         })
 
-        // Add Orders API
+        /* Add Orders API */
         app.post('/orders', async (req, res) => {
             const order = req.body;
             const result = await ordersCollection.insertOne(order);
             res.json(result);
         })
 
-        // Get Orders API
+        /* Get Orders API */
         app.get('/orders', async (req, res) => {
             const cursor = ordersCollection.find({});
             const orders = await cursor.toArray();
             res.send(orders);
         })
 
-        // Delete Orders API
+        /* Delete Orders API */
         app.delete('/orders/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: ObjectId(id) };
@@ -60,7 +69,7 @@ async function run() {
             res.json(result);
         })
 
-        // Get MyOrders API
+        /* Get MyOrders API */
         app.get('/order/:email', async (req, res) => {
             const email = req.params.email;
             const query = { "email": email };
