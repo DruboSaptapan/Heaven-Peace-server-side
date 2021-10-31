@@ -70,7 +70,7 @@ async function run() {
         })
 
         /* Get MyOrders API */
-        app.get('/order/:email', async (req, res) => {
+        app.get('/order/email', async (req, res) => {
             const email = req.params.email;
             const query = { "email": email };
             const order = await ordersCollection.find(query);
