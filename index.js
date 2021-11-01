@@ -31,20 +31,19 @@ async function run() {
             res.send(packages);
         })
 
-        // GET Single Service
-        app.get('/packages/:id', async (req, res) => {
-            const id = req.params.id;
-            console.log('getting specific service', id);
-            const query = { _id: ObjectId(id) };
-            const package = await packagesCollection.findOne(query);
-            res.json(package);
-        })
-
         /* Add Packages API */
         app.post('/packages', async (req, res) => {
             const package = req.body;
             const result = await packagesCollection.insertOne(package);
             res.json(result);
+        })
+
+        // Get Single Package
+        app.get('/packages/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const package = await packagesCollection.findOne(query);
+            res.json(package);
         })
 
         /* Add Orders API */
