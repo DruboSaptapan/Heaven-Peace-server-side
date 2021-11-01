@@ -61,11 +61,11 @@ async function run() {
         })
 
         /* Get MyOrders API */
-        app.get('/order/email', async (req, res) => {
+        app.post('/orders/email', async (req, res) => {
             const email = req.body.email;
             const query = { "email": email };
-            const order = await ordersCollection.find(query);
-            res.json(order);
+            const result = await ordersCollection.find(query).toArray();
+            res.json(result);
         })
         
         /* Delete Orders API */
