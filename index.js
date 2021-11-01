@@ -53,22 +53,38 @@ async function run() {
             res.json(result);
         })
 
-        /* Get Orders API */
+        /* get Orders API */
         app.get('/orders', async (req, res) => {
             const cursor = ordersCollection.find({});
             const orders = await cursor.toArray();
             res.send(orders);
         })
 
-        /* Get MyOrders API */
+        /* get MyOrders API */
         app.post('/orders/email', async (req, res) => {
             const email = req.body.email;
             const query = { "email": email };
             const result = await ordersCollection.find(query).toArray();
             res.json(result);
         })
+
+        /* update status */
+        app.post('/updateStatus', async(res, req) => {
+            const id = req.body.id
+            const status = req.body.status
+
+            const filter = {_id: ObjectId(id)};
+            const options = {upsert : true};
+            const updateStatus = {
+                $set: {
+                    "status" : status === "pending" ? "approve" : "pending"
+                };
+            };
+            const result = await ordersCollection.updateOne(filter, updateStatus, options);
+            res.json(result)
+        })
         
-        /* Delete Orders API */
+        /* delete Orders API */
         app.delete('/orders/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: ObjectId(id) };
