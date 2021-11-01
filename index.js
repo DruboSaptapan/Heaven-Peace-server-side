@@ -72,7 +72,6 @@ async function run() {
         // app.post('/updateStatus', async(res, req) => {
         //     const id = req.body.id
         //     const status = req.body.status
-
         //     const filter = {_id: ObjectId(id)};
         //     const options = {upsert : true};
         //     const updateStatus = {
