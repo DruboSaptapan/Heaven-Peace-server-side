@@ -69,20 +69,20 @@ async function run() {
         })
 
         /* update status */
-        app.post('/updateStatus', async(res, req) => {
-            const id = req.body.id
-            const status = req.body.status
+        // app.post('/updateStatus', async(res, req) => {
+        //     const id = req.body.id
+        //     const status = req.body.status
 
-            const filter = {_id: ObjectId(id)};
-            const options = {upsert : true};
-            const updateStatus = {
-                $set: {
-                    "status" : status === "pending" ? "approve" : "pending"
-                };
-            };
-            const result = await ordersCollection.updateOne(filter, updateStatus, options);
-            res.json(result)
-        })
+        //     const filter = {_id: ObjectId(id)};
+        //     const options = {upsert : true};
+        //     const updateStatus = {
+        //         $set: {
+        //             "status" : status === "pending" ? "approve" : "pending"
+        //         };
+        //     };
+        //     const result = await ordersCollection.updateOne(filter, updateStatus, options);
+        //     res.json(result)
+        // })
         
         /* delete Orders API */
         app.delete('/orders/:id', async (req, res) => {
